@@ -1,26 +1,37 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <h1>Todo List</h1>
+    <form @submit.prevent="addTodo">
+      <input type="text" v-model="newTodo" placeholder="Add new todo">
+      <button type="submit">Add</button>
+    </form>
+    <ul>
+      <li v-for="(todo, index) in todos" :key="index">
+        {{ todo }}
+        <button @click="removeTodo(index)">x</button>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  data() {
+    return {
+      newTodo: '',
+      todos: [],
+    };
+  },
+  methods: {
+    addTodo() {
+      if (this.newTodo.trim() !== '') {
+        this.todos.push(this.newTodo.trim());
+        this.newTodo = '';
+      }
+    },
+    removeTodo(index) {
+      this.todos.splice(index, 1);
+    },
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
